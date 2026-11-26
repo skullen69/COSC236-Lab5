@@ -1,0 +1,9 @@
+Answered by Dallas:
+
+1. To reduce the tightly coupled classes "Member" and "Paperbook" by introducing an abstraction. This relates to the Dependency Inversion Principle because we are breaking the dependency between the Member class and PaperBook class.
+
+2. Because now you can add other types of Book classes or other types of functionality without having to change anything in Library or Member. This demonstrates flexibility.
+
+3. The system's flexibility is improved, meaning we can extend the behavior of a module for new functionalities without changing existing code. This makes it Open for Extension. Library and Member should not need to be modified when implementing additional functionality as well so long as the functionality complies with the abstraction, thus making it Closed for modification, and abiding to the Open/Closed Principle.
+
+4. That they can reduce the amount of code needed to be written in the long run, and most importantly reducing chances of bugs due to not having to edit working code.
