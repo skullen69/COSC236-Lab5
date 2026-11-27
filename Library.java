@@ -37,7 +37,7 @@ public class Library {
 	}
 	public void removeMember(Member member) {
 		if(member != null) {
-			member.returnAllBooks(); // return all member's books to the library
+			member.returnAllBooks(this); // return all member's books to the library
 			members.remove(member);
 		}
 	}
