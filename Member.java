@@ -24,16 +24,35 @@ public class Member {
 	public String toString() {
 		return "Member: " + name;
 	}
+	
+	public boolean hasBorrowed(Book book) {
+		return borrowedBooks.contains(book);
+	}
+	
+	public void addBook(Book book) {
+		borrowedBooks.add(book);
+	}
+	
+	public void removeBook(Book book) {
+		borrowedBooks.remove(book);
+	}
+	
 	public void borrowBook(Book book) {
-		if (book != null && book.getIsAvailable() == true) {
-			borrowedBooks.add(book);
-			book.setIsAvailable(false);
+		BorrowingService borrowingService = new BorrowingService();
+		boolean success = borrowingService.borrowBook(this, book);
+		if (success) {
+			System.out.println(book + " has been borrowed...");
+		} else {
+			System.out.println("Cannot borrow " + book + ". It is unavailable.");
 		}
 	}
 	public void returnBook(Book book) {
-		if (book != null) {
-			borrowedBooks.remove(book);
-			book.setIsAvailable(true);
+		BorrowingService borrowingService = new BorrowingService();
+		boolean success = borrowingService.returnBook(this, book);
+		if (success) {
+			System.out.println(book + " has been returned...");
+		} else {
+			System.out.println(book + " has not been borrowed.");
 		}
 	}
 	public void listBorrowedBooks() {

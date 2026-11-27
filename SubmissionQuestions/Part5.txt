@@ -1,0 +1,7 @@
+Answered by Dallas:
+
+1. I modified Member to only handle holding the data instead of handling the responsibility of borrowing books. Its only responsibility now is to hold data. The actual borrowing is done by the BorrowingService class.
+
+2. Because the name of the BorrowingService class implies that it should handle borrowing functionality. It is the easiest way to ensure SRP is followed. However you could inject the BorrowingService interface into the Library class and handle borrowing in there as well.
+
+3. Mostly just adding implementing functionality into BorrowingService that would also allow the tests to still pass. Making the tests functional still was the only real challenge I came across.
