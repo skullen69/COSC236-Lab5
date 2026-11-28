@@ -1,76 +1,78 @@
 package lab5.tests;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import lab5.Library;
-import lab5.PaperBook;
-import lab5.Member;
+
 import lab5.Book;
+import lab5.BorrowingService;
+import lab5.Library;
+import lab5.Member;
+import lab5.PaperBook;
 
 
 
 class TestAddRemoveBooks {
 	
-	private Library library;
+	private Library lib;
+	private BorrowingService bs = BorrowingService.getInstance();
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		 this.library = new Library(); // empty library for each test
+		 this.lib = new Library(); // empty library for each test
 	}
 
 	Book book1 = new PaperBook("Dune");
 	Book book2 = new PaperBook("1984");
 	Book book3 = new PaperBook("Moby Dick");
 	
-	Member member = new Member("Grady Booch");
+	Member member = new Member("Grady Booch", bs);
 	
 	@Test
 	void AddBooks() {
 		
-		assertEquals(library.booksCount(), 0, "Should be no books in library");	
-		library.addBook(book1);
-		library.addBook(book2);
-		library.addBook(book3);
-		assertEquals(library.booksCount(), 3, "There should be 3 books in the library");
+		assertEquals(lib.booksCount(), 0, "Should be no books in library");	
+		lib.addBook(book1);
+		lib.addBook(book2);
+		lib.addBook(book3);
+		assertEquals(lib.booksCount(), 3, "There should be 3 books in the library");
 	}
 	
 	@Test
 	void RemoveBooksBook() {
 		
 		AddBooks();
-		assertEquals(library.booksCount(), 3, "There should be 3 books in the library");
-		library.removeBook(book2);
-		library.removeBook(book3);
-		assertEquals(library.booksCount(), 1, "There should be only one book left in the library");
+		assertEquals(lib.booksCount(), 3, "There should be 3 books in the library");
+		lib.removeBook(book2);
+		lib.removeBook(book3);
+		assertEquals(lib.booksCount(), 1, "There should be only one book left in the library");
 		// Validating correctness by adding more books and double checking book count.
-		library.addBook(new PaperBook("Harry Potter"));
-		library.addBook(new PaperBook("The Hobbit"));
-		assertEquals(library.booksCount(), 3, "There should be only three books left in the library");
+		lib.addBook(new PaperBook("Harry Potter"));
+		lib.addBook(new PaperBook("The Hobbit"));
+		assertEquals(lib.booksCount(), 3, "There should be only three books left in the library");
 	}
 	
 	@Test
 	void RemoveBooksString() {
 		
 		AddBooks();
-		assertEquals(library.booksCount(), 3, "There should be 3 books in the library");
-		library.removeBook("Dune");
-		assertEquals(library.booksCount(), 2, "There should be only two book left in the library");
+		assertEquals(lib.booksCount(), 3, "There should be 3 books in the library");
+		lib.removeBook("Dune");
+		assertEquals(lib.booksCount(), 2, "There should be only two book left in the library");
 	}
 	
 	@Test
 	void RemoveBorrowedBook() {
 		
 		AddBooks();
-		assertEquals(library.booksCount(), 3, "There should be 3 books in the library");
+		assertEquals(lib.booksCount(), 3, "There should be 3 books in the library");
 		
-		member.borrowBook(book1);
+		member.borrowBook(book1, lib);
 		assertEquals(member.borrowedBooksCount(), 1, "Should be 1 borrowed book");
 		
-		library.removeBook(book1);
-		assertEquals(library.booksCount(), 2, "There should be only two book left in the library");
+		lib.removeBook(book1.getTitle());
+		assertEquals(lib.booksCount(), 2, "There should be only two book left in the library");
 		
 		assertEquals(member.borrowedBooksCount(), 1, "The book should stay with member"); // 
 		

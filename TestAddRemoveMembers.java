@@ -1,39 +1,42 @@
 package lab5.tests;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import lab5.Member;
-import lab5.Library;
-import lab5.PaperBook;
 import lab5.Book;
+import lab5.BorrowingService;
+import lab5.Library;
+import lab5.Member;
+import lab5.PaperBook;
 
 class TestAddRemoveMembers {
 
 	
-	private Library library;
+	private Library lib;
+	private BorrowingService bs = BorrowingService.getInstance();
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		 this.library = new Library(); // empty library for each test
+		 this.lib = new Library(); // empty library for each test
 	}
 	
-	Member member1 = new Member("Dude");
-	Member member2 = new Member("Gal");
+	Member member1 = new Member("Dude", bs);
+	Member member2 = new Member("Gal", bs);
 	Book book1 = new PaperBook("Dune");
 	Book book2 = new PaperBook("1984");
 	
 	@Test
 	void AddMember() {
 		
-		assertEquals(library.membersCount(), 0, "Should be no members after initialization");	
-		library.addMember(member1);	
-		assertEquals(library.membersCount(), 1, "One member should have been added");	
-		library.addMember(member2);
-		assertEquals(library.membersCount(), 2, "Two members should have been added");	
+		assertEquals(lib.membersCount(), 0, "Should be no members after initialization");	
+		lib.addMember(member1);	
+		assertEquals(lib.membersCount(), 1, "One member should have been added");	
+		lib.addMember(member2);
+		assertEquals(lib.membersCount(), 2, "Two members should have been added");	
 		
 	}
 	
@@ -41,37 +44,39 @@ class TestAddRemoveMembers {
 	void RemoveMembersMember() {
 		
 		AddMember();
-		assertEquals(library.membersCount(), 2, "Two members should have been in the library");
-		library.removeMember(member2);
-		assertEquals(library.membersCount(), 1, "Only one member should remain");
+		assertEquals(lib.membersCount(), 2, "Two members should have been in the library");
+		lib.removeMember(member2);
+		assertEquals(lib.membersCount(), 1, "Only one member should remain");
 	}
 	@Test
 	void RemoveMemberString() {
 		
 		AddMember();
-		assertEquals(library.membersCount(), 2, "Two members should have been in the library");
-		library.removeMember("Dude");
-		assertEquals(library.membersCount(), 1, "Only one member should remain");
+		assertEquals(lib.membersCount(), 2, "Two members should have been in the library");
+		lib.removeMember("Dude");
+		assertEquals(lib.membersCount(), 1, "Only one member should remain");
 	}
 
+	
+	// Fix
 	@Test
 	void RemoveMemberWithBooks() {
 		
 		AddMember();
-		assertEquals(library.membersCount(), 2, "Two members should be in the library");
-		library.addBook(book1);
-		library.addBook(book2);
-		assertEquals(library.booksCount(), 2, "Two books should be in the library");
+		assertEquals(lib.membersCount(), 2, "Two members should be in the library");
+		lib.addBook(book1);
+		lib.addBook(book2);
+		assertEquals(lib.booksCount(), 2, "Two books should be in the library");
 		
-		member1.borrowBook(book1);
-		member1.borrowBook(book2);
+		member1.borrowBook(book1, lib);
+		member1.borrowBook(book2, lib);
 		assertEquals(member1.borrowedBooksCount(), 2, "Should be two borrowed books");
 		assertFalse(book1.getIsAvailable(), "Book should be not available");
 		assertFalse(book2.getIsAvailable(), "Book should be not available");
 		
-		library.removeMember(member1);
-		assertEquals(library.membersCount(), 1, "Only one member should remain");
-		assertEquals(library.booksCount(), 2, "Two books should be in the library");
+		lib.removeMember(member1.getName());
+		assertEquals(lib.membersCount(), 1, "Only one member should remain");
+		assertEquals(lib.booksCount(), 2, "Two books should be in the library");
 		assertTrue(book1.getIsAvailable(), "Book should be available");
 		assertTrue(book2.getIsAvailable(), "Book should be available");
 				

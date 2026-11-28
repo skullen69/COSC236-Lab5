@@ -2,9 +2,10 @@ package lab5;
 
 public class LibrarianController {
 	
-	Library library; // Library dependency
-	
+	private Library library; // Library dependency
+	private BorrowingService borrowingService;
 	public LibrarianController( ) {
+		this.borrowingService = BorrowingService.getInstance();
 		this.library = new Library(); // Constructor injection
 	}
 	public Library getLibrary() {
@@ -20,7 +21,7 @@ public class LibrarianController {
 		library.addBook(new PaperBook(title));  // Book class constructor dependency
 	}
 	public void addMember(String name) {
-		library.addMember(new Member(name)); // Member class constructor dependency
+		library.addMember(new Member(name, borrowingService)); // Member class constructor dependency
 	}
 	public void removeBook(String title) {
 		library.removeBook(title); // remove 
@@ -54,7 +55,7 @@ public class LibrarianController {
 		Member member = library.findMemberByName(name); // use library for search
 		Book book = library.findBookByTitle(title);  // use library for search
 		if (book != null && member != null)
-			member.borrowBook(book); // member borrows a book, not library 
+			member.borrowBook(book, this.library); // member borrows a book, not library 
 		else 	
 			System.out.println("Either book " + title + " or member " + name + " not found.");
 	}
@@ -63,7 +64,7 @@ public class LibrarianController {
 		Member member = library.findMemberByName(name); // use library for search
 		Book book = library.findBookByTitle(title); // use library for search 
 		if (book != null && member != null)
-			member.returnBook(book); // members returns book. 
+			member.returnBook(book, this.library); // members returns book. 
 		else  	
 			System.out.println("Either book " + title + " or member " + name + " not found.");
 	}

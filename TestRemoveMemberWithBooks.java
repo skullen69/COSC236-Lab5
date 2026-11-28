@@ -1,17 +1,24 @@
 package lab5.tests;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import lab5.Book;
+import lab5.BorrowingService;
+import lab5.Library;
 import lab5.Member;
 import lab5.PaperBook;
-import lab5.Book;
-import lab5.Library;
 
 
 class TestRemoveMemberWithBooks {
 
+	private BorrowingService bs = BorrowingService.getInstance();
+	
 	Library library;
 	Member member;
 	Book book1;
@@ -24,7 +31,7 @@ class TestRemoveMemberWithBooks {
 		book1 = new PaperBook("Dune");
 		book2 = new PaperBook("1984");
 		book3 = new PaperBook("Moby Dick");
-		member = new Member("Dude");
+		member = new Member("Dude", bs);
 		library.addMember(member);
 		library.addBook(book1);
 		library.addBook(book2);
@@ -34,9 +41,9 @@ class TestRemoveMemberWithBooks {
 	@Test
 	void removeMemberReturnBooks() {
 		
-		member.borrowBook(book1);
-		member.borrowBook(book2);
-		member.borrowBook(book3);
+		member.borrowBook(book1, library);
+		member.borrowBook(book2, library);
+		member.borrowBook(book3, library);
 		assertAll("Check inital library state", 
 			() -> assertEquals(library.membersCount(),1),
 			() -> assertEquals(library.booksCount(),3),
