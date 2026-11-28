@@ -1,18 +1,18 @@
 package lab5.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import lab5.Book;
+import lab5.BorrowingService;
 import lab5.Member;
 import lab5.PaperBook;
 
 public class MemberAddRemoveBook {
 	
+	private BorrowingService bs = BorrowingService.getInstance();
 	Member mem1;
 	Member mem2;
 	Book b1 = new PaperBook("Dune");
@@ -20,8 +20,8 @@ public class MemberAddRemoveBook {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		mem1 = new Member("Alice");
-		mem2 = new Member("Bob");
+		mem1 = new Member("Alice", bs);
+		mem2 = new Member("Bob", bs);
 	}
 	
 	@Test

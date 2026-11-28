@@ -8,13 +8,12 @@ import org.junit.jupiter.api.Test;
 
 import lab5.Book;
 import lab5.BorrowingService;
-import lab5.LibrarianController;
 import lab5.Library;
 import lab5.Member;
 import lab5.PaperBook;
 
 public class BookCantFindBook {
-	private BorrowingService bs;
+	private BorrowingService bs = BorrowingService.getInstance();
 	private Library lib = new Library();
 	
 	Member mem;
@@ -22,9 +21,8 @@ public class BookCantFindBook {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		mem = new Member("Alice");
+		mem = new Member("Alice", bs);
 		b.setIsAvailable(true);
-		bs = new BorrowingService();
 	}
 	@Test
 	void cantFindBook() {

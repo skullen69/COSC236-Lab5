@@ -2,9 +2,10 @@ package lab5;
 
 public class LibrarianController {
 	
-	Library library; // Library dependency
-	
+	private Library library; // Library dependency
+	private BorrowingService borrowingService;
 	public LibrarianController( ) {
+		this.borrowingService = BorrowingService.getInstance();
 		this.library = new Library(); // Constructor injection
 	}
 	public Library getLibrary() {
@@ -20,7 +21,7 @@ public class LibrarianController {
 		library.addBook(new PaperBook(title));  // Book class constructor dependency
 	}
 	public void addMember(String name) {
-		library.addMember(new Member(name)); // Member class constructor dependency
+		library.addMember(new Member(name, borrowingService)); // Member class constructor dependency
 	}
 	public void removeBook(String title) {
 		library.removeBook(title); // remove 

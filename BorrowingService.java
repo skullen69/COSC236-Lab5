@@ -1,6 +1,19 @@
 package lab5;
 
 public class BorrowingService implements BorrowingServiceAPI {
+	private static BorrowingService instance;
+	private int borrowingLimit;
+	private BorrowingService() {
+		borrowingLimit = 3;
+	}
+	
+	public static synchronized BorrowingService getInstance() {
+		if (instance == null) {
+			instance = new BorrowingService();
+		}
+		return instance;
+	}
+	
 	@Override
 	public BorrowingBookResult borrowBook(Member member, Book book, Library lib) {
 		if (member == null || book == null) {
@@ -15,7 +28,7 @@ public class BorrowingService implements BorrowingServiceAPI {
 		if (lib.findBookByTitle(book.getTitle()) == null) {
 			return new BorrowingBookResult(false, book + " cannot be found in the library...");
 		}
-		if (member.getBorrowedBooks().size() >= 3) {
+		if (member.getBorrowedBooks().size() >= borrowingLimit) {
 			return new BorrowingBookResult(false, member + " has reached their borrowing limit.");
 		}
 		book.setIsAvailable(false);

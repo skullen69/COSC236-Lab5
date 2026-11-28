@@ -17,8 +17,9 @@ import lab5.PaperBook;
 
 class TestRemoveMemberWithBooks {
 
+	private BorrowingService bs = BorrowingService.getInstance();
+	
 	Library library;
-	BorrowingService bs;
 	Member member;
 	Book book1;
 	Book book2;
@@ -30,7 +31,7 @@ class TestRemoveMemberWithBooks {
 		book1 = new PaperBook("Dune");
 		book2 = new PaperBook("1984");
 		book3 = new PaperBook("Moby Dick");
-		member = new Member("Dude");
+		member = new Member("Dude", bs);
 		library.addMember(member);
 		library.addBook(book1);
 		library.addBook(book2);

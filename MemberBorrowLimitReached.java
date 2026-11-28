@@ -8,13 +8,12 @@ import org.junit.jupiter.api.Test;
 
 import lab5.Book;
 import lab5.BorrowingService;
-import lab5.LibrarianController;
 import lab5.Library;
 import lab5.Member;
 import lab5.PaperBook;
 
 public class MemberBorrowLimitReached {
-	private BorrowingService bs;
+	private BorrowingService bs = BorrowingService.getInstance();
 	private Library lib = new Library();
 	
 	
@@ -26,12 +25,11 @@ public class MemberBorrowLimitReached {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		mem = new Member("Alice");
+		mem = new Member("Alice", bs);
 		b1.setIsAvailable(true);
 		b2.setIsAvailable(true);
 		b3.setIsAvailable(true);
 		b4.setIsAvailable(true);
-		bs = new BorrowingService();
 		lib.addBook(b1);
 		lib.addBook(b2);
 		lib.addBook(b3);
