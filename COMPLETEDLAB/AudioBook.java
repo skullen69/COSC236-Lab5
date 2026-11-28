@@ -1,4 +1,4 @@
-
+package lab5;
 public class AudioBook implements Book{
 	private boolean isAvailable;
 	private String title;

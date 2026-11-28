@@ -1,0 +1,5 @@
+Because the factory method proves useful for the particular design we had with our types of books, a factory method defines an interface for creating objects but allowing subclasses to alter the types of objects we are creating, we have multiple types of books, making this useful in our case.
+
+This promotes flexibility because you no longer have to create different object types everywhere needed in your code, there is less dependencies between classes and looser coupling. It is also much easier to maintain code this way, adding a class is as easy as updating the factory.
+
+However, one drawback in this case would be it piling up after a while, the more types you add would cause over-engineering and make the code harder to maintain and more difficult to understand.

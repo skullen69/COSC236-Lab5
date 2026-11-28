@@ -4,9 +4,17 @@ public class LibrarianController {
 	
 	private Library library; // Library dependency
 	private BorrowingService borrowingService;
+	// Part 8 Task 3
+	private BookFactory audioBookFactory;
+	private BookFactory paperBookFactory;
+	private BookFactory eBookFactory;
 	public LibrarianController( ) {
 		this.borrowingService = BorrowingService.getInstance();
 		this.library = new Library(); // Constructor injection
+		// Part 8 Task 3
+		this.audioBookFactory = new AudioBookFactory();
+		this.paperBookFactory = new PaperBookFactory();
+		this.eBookFactory = new EBookFactory();
 	}
 	public Library getLibrary() {
 		return this.library;
@@ -17,8 +25,17 @@ public class LibrarianController {
 	public void showMembers() {
 		library.showMembers();
 	}
-	public void addBook(String title) {
-		library.addBook(new PaperBook(title));  // Book class constructor dependency
+	public void addBook(BookFactory factory, String title) {
+		library.addBook(factory.createBook(title));
+	}
+	public void addPaperBook(String title) {
+		addBook(paperBookFactory, title);  // Book class constructor dependency
+	}
+	public void addEBook(String title) {
+		addBook(eBookFactory, title);  // Book class constructor dependency
+	}
+	public void addAudioBook(String title) {
+		addBook(audioBookFactory, title);;  // Book class constructor dependency
 	}
 	public void addMember(String name) {
 		library.addMember(new Member(name, borrowingService)); // Member class constructor dependency
